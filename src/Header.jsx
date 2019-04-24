@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format as formatDate, isValid, parse, getHours, getMinutes, getSeconds } from 'date-fns';
 import classNames from 'classnames';
+
+const checkFormat = str => /^\d{2}:\d{2}(:\d{2})?$/.test(str);
 
 class Header extends Component {
   static propTypes = {
@@ -12,9 +14,6 @@ class Header extends Component {
     clearText: PropTypes.string,
     value: PropTypes.object,
     inputReadOnly: PropTypes.bool,
-    hourOptions: PropTypes.array,
-    minuteOptions: PropTypes.array,
-    secondOptions: PropTypes.array,
     disabledHours: PropTypes.func,
     disabledMinutes: PropTypes.func,
     disabledSeconds: PropTypes.func,
@@ -35,7 +34,7 @@ class Header extends Component {
     super(props);
     const { value, format } = props;
     this.state = {
-      str: (value && value.format(format)) || '',
+      str: (value && formatDate(value, format)) || '',
       invalid: false,
     };
   }
@@ -55,7 +54,7 @@ class Header extends Component {
   componentWillReceiveProps(nextProps) {
     const { value, format } = nextProps;
     this.setState({
-      str: (value && value.format(format)) || '',
+      str: (value && formatDate(value, format)) || '',
       invalid: false,
     });
   }
@@ -65,38 +64,11 @@ class Header extends Component {
     this.setState({
       str,
     });
-    const {
-      format,
-      hourOptions,
-      minuteOptions,
-      secondOptions,
-      disabledHours,
-      disabledMinutes,
-      disabledSeconds,
-      onChange,
-    } = this.props;
+    const { format, disabledHours, disabledMinutes, disabledSeconds, onChange } = this.props;
 
     if (str) {
-      const { value: originalValue } = this.props;
-      const value = this.getProtoValue().clone();
-      const parsed = moment(str, format, true);
-      if (!parsed.isValid()) {
-        this.setState({
-          invalid: true,
-        });
-        return;
-      }
-      value
-        .hour(parsed.hour())
-        .minute(parsed.minute())
-        .second(parsed.second());
-
-      // if time value not allowed, response warning.
-      if (
-        hourOptions.indexOf(value.hour()) < 0 ||
-        minuteOptions.indexOf(value.minute()) < 0 ||
-        secondOptions.indexOf(value.second()) < 0
-      ) {
+      const parsed = parse(str, format, new Date(1990, 0, 0));
+      if (!isValid(parsed) || !checkFormat(str)) {
         this.setState({
           invalid: true,
         });
@@ -105,12 +77,12 @@ class Header extends Component {
 
       // if time value is disabled, response warning.
       const disabledHourOptions = disabledHours();
-      const disabledMinuteOptions = disabledMinutes(value.hour());
-      const disabledSecondOptions = disabledSeconds(value.hour(), value.minute());
+      const disabledMinuteOptions = disabledMinutes(getHours(parsed));
+      const disabledSecondOptions = disabledSeconds(getHours(parsed), getMinutes(parsed));
       if (
-        (disabledHourOptions && disabledHourOptions.indexOf(value.hour()) >= 0) ||
-        (disabledMinuteOptions && disabledMinuteOptions.indexOf(value.minute()) >= 0) ||
-        (disabledSecondOptions && disabledSecondOptions.indexOf(value.second()) >= 0)
+        (disabledHourOptions && disabledHourOptions.indexOf(getHours(parsed)) >= 0) ||
+        (disabledMinuteOptions && disabledMinuteOptions.indexOf(getMinutes(parsed)) >= 0) ||
+        (disabledSecondOptions && disabledSecondOptions.indexOf(getSeconds(parsed)) >= 0)
       ) {
         this.setState({
           invalid: true,
@@ -118,22 +90,7 @@ class Header extends Component {
         return;
       }
 
-      if (originalValue) {
-        if (
-          originalValue.hour() !== value.hour() ||
-          originalValue.minute() !== value.minute() ||
-          originalValue.second() !== value.second()
-        ) {
-          // keep other fields for rc-calendar
-          const changedValue = originalValue.clone();
-          changedValue.hour(value.hour());
-          changedValue.minute(value.minute());
-          changedValue.second(value.second());
-          onChange(changedValue);
-        }
-      } else if (originalValue !== value) {
-        onChange(value);
-      }
+      onChange(parsed);
     } else {
       onChange(null);
     }

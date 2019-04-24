@@ -1,7 +1,7 @@
 {
-  "name": "rc-time-picker",
-  "version": "3.6.4",
-  "description": "React TimePicker",
+  "name": "rc-time-picker-molon",
+  "version": "4.0.0",
+  "description": "React TimePicker without moment",
   "keywords": [
     "react",
     "react-time-picker",
@@ -19,14 +19,14 @@
   ],
   "main": "lib/index",
   "module": "es/index",
-  "homepage": "http://github.com/react-component/time-picker",
-  "author": "wuzhao.mail@gmail.com",
+  "homepage": "http://github.com/escorponox/time-picker",
+  "author": "escorponox@gmail.com",
   "repository": {
     "type": "git",
-    "url": "git@github.com:react-component/time-picker.git"
+    "url": "git@github.com:escorponox/time-picker.git"
   },
   "bugs": {
-    "url": "http://github.com/react-component/time-picker/issues"
+    "url": "http://github.com/escorponox/time-picker/issues"
   },
   "licenses": "MIT",
   "config": {
@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "classnames": "2.x",
-    "moment": "2.x",
+    "date-fns": "^2.0.0-alpha.23",
     "prop-types": "^15.5.8",
     "rc-trigger": "^2.2.0"
   }

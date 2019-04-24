@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Trigger from 'rc-trigger';
-import moment from 'moment';
+import { format as formatDate, setSeconds } from 'date-fns';
 import classNames from 'classnames';
 import Panel from './Panel';
 import placements from './placements';
@@ -74,7 +74,7 @@ export default class Picker extends Component {
     popupStyle: {},
     id: '',
     align: {},
-    defaultOpenValue: moment(),
+    defaultOpenValue: new Date(),
     allowEmpty: true,
     showHour: true,
     showMinute: true,
@@ -100,10 +100,16 @@ export default class Picker extends Component {
     super(props);
     this.saveInputRef = refFn.bind(this, 'picker');
     this.savePanelRef = refFn.bind(this, 'panelInstance');
-    const { defaultOpen, defaultValue, open = defaultOpen, value = defaultValue } = props;
+    const {
+      defaultOpen,
+      defaultValue,
+      open = defaultOpen,
+      value = defaultValue,
+      showSecond,
+    } = props;
     this.state = {
       open,
-      value,
+      value: showSecond ? value : setSeconds(value, 0),
     };
   }
 
@@ -360,7 +366,7 @@ export default class Picker extends Component {
             name={name}
             onKeyDown={this.onKeyDown}
             disabled={disabled}
-            value={(value && value.format(this.getFormat())) || ''}
+            value={(value && formatDate(value, this.getFormat())) || ''}
             autoComplete={autoComplete}
             onFocus={onFocus}
             onBlur={onBlur}
