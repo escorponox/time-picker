@@ -33,6 +33,7 @@ class Select extends Component {
     type: PropTypes.string,
     onSelect: PropTypes.func,
     onMouseEnter: PropTypes.func,
+    onEsc: PropTypes.func,
   };
 
   state = {
@@ -58,7 +59,7 @@ class Select extends Component {
   };
 
   getOptions() {
-    const { options, selectedIndex, prefixCls } = this.props;
+    const { options, selectedIndex, prefixCls, onEsc } = this.props;
     return options.map((item, index) => {
       const cls = classNames({
         [`${prefixCls}-select-option-selected`]: selectedIndex === index,
@@ -69,7 +70,10 @@ class Select extends Component {
         : () => {
             this.onSelect(item.value);
           };
-      const onKeyDown = e => e.keyCode === 13 && onClick();
+      const onKeyDown = e => {
+        if (e.keyCode === 13) onClick();
+        else if (e.keyCode === 27) onEsc();
+      };
 
       return (
         <li

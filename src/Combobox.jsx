@@ -39,6 +39,7 @@ class Combobox extends Component {
     disabledSeconds: PropTypes.func,
     onCurrentSelectPanelChange: PropTypes.func,
     use12Hours: PropTypes.bool,
+    onEsc: PropTypes.func,
     isAM: PropTypes.bool,
   };
 
@@ -91,7 +92,7 @@ class Combobox extends Component {
   };
 
   getHourSelect(hour) {
-    const { prefixCls, hourOptions, disabledHours, showHour, use12Hours } = this.props;
+    const { prefixCls, hourOptions, disabledHours, showHour, use12Hours, onEsc } = this.props;
     if (!showHour) {
       return null;
     }
@@ -114,6 +115,7 @@ class Combobox extends Component {
         type="hour"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('hour')}
+        onEsc={onEsc}
       />
     );
   }
@@ -126,6 +128,7 @@ class Combobox extends Component {
       defaultOpenValue,
       showMinute,
       value: propValue,
+      onEsc,
     } = this.props;
     if (!showMinute) {
       return null;
@@ -141,6 +144,7 @@ class Combobox extends Component {
         type="minute"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('minute')}
+        onEsc={onEsc}
       />
     );
   }
@@ -153,6 +157,7 @@ class Combobox extends Component {
       showSecond,
       defaultOpenValue,
       value: propValue,
+      onEsc,
     } = this.props;
     if (!showSecond) {
       return null;
@@ -168,12 +173,13 @@ class Combobox extends Component {
         type="second"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('second')}
+        onEsc={onEsc}
       />
     );
   }
 
   getAMPMSelect() {
-    const { prefixCls, use12Hours, format, isAM } = this.props;
+    const { prefixCls, use12Hours, format, isAM, onEsc } = this.props;
     if (!use12Hours) {
       return null;
     }
@@ -192,6 +198,7 @@ class Combobox extends Component {
         type="ampm"
         onSelect={this.onItemChange}
         onMouseEnter={() => this.onEnterSelectPanel('ampm')}
+        onEsc={onEsc}
       />
     );
   }
