@@ -180,7 +180,7 @@ react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render(react__WEBPACK_IMPORTED_
   onChange: function onChange(value) {
     return console.log(value);
   }
-}), document.getElementById("__react-content"));
+}), document.getElementById('__react-content'));
 
 /***/ }),
 

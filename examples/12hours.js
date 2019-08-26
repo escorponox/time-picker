@@ -168,7 +168,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
-!(function webpackMissingModule() { var e = new Error("Cannot find module 'moment'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
 !(function webpackMissingModule() { var e = new Error("Cannot find module 'rc-time-picker'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 /* eslint no-console:0 */
 
@@ -177,7 +178,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var format = 'h:mm a';
-var now = !(function webpackMissingModule() { var e = new Error("Cannot find module 'moment'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())().hour(0).minute(0);
+var now = moment__WEBPACK_IMPORTED_MODULE_3___default()().hour(0).minute(0);
 
 function onChange(value) {
   console.log(value && value.format(format));
