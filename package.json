@@ -69,7 +69,7 @@
   },
   "dependencies": {
     "classnames": "2.x",
-    "date-fns": "^2.0.0-alpha.23",
+    "date-fns": "^2.0.0",
     "prop-types": "^15.5.8",
     "rc-trigger": "^2.2.0"
   }
